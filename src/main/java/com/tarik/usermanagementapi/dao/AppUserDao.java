@@ -1,5 +1,6 @@
-package com.tarik.usermanagementapi.appuser;
+package com.tarik.usermanagementapi.dao;
 
+import com.tarik.usermanagementapi.model.entity.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.tarik.usermanagementapi.exception;
+package com.tarik.usermanagementapi.model.exception;
 
 import lombok.Data;
 

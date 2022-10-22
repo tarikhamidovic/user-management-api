@@ -1,7 +1,6 @@
-package com.tarik.usermanagementapi.appuser;
+package com.tarik.usermanagementapi.model.entity;
 
-import com.tarik.usermanagementapi.permission.Permission;
-import com.tarik.usermanagementapi.status.Status;
+import com.tarik.usermanagementapi.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

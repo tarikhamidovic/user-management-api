@@ -1,6 +1,6 @@
-package com.tarik.usermanagementapi.permission;
+package com.tarik.usermanagementapi.model.entity;
 
-import com.tarik.usermanagementapi.appuser.AppUser;
+import com.tarik.usermanagementapi.model.entity.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

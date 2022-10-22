@@ -1,7 +1,8 @@
-package com.tarik.usermanagementapi.appuser;
+package com.tarik.usermanagementapi.model.view;
 
-import com.tarik.usermanagementapi.permission.Permission;
-import com.tarik.usermanagementapi.status.Status;
+import com.tarik.usermanagementapi.model.entity.AppUser;
+import com.tarik.usermanagementapi.model.entity.Permission;
+import com.tarik.usermanagementapi.model.enums.Status;
 
 import java.util.List;
 

@@ -1,11 +1,16 @@
-package com.tarik.usermanagementapi.appuser;
+package com.tarik.usermanagementapi.service;
 
-import com.tarik.usermanagementapi.exception.AppUserNotFoundException;
-import com.tarik.usermanagementapi.exception.AppUserEmailConstraintViolationException;
-import com.tarik.usermanagementapi.permission.Permission;
-import com.tarik.usermanagementapi.permission.PermissionDao;
-import com.tarik.usermanagementapi.status.Status;
+import com.tarik.usermanagementapi.model.entity.AppUser;
+import com.tarik.usermanagementapi.dao.AppUserDao;
+import com.tarik.usermanagementapi.model.view.AppUserViewModel;
+import com.tarik.usermanagementapi.model.exception.AppUserNotFoundException;
+import com.tarik.usermanagementapi.model.exception.AppUserEmailConstraintViolationException;
+import com.tarik.usermanagementapi.model.entity.Permission;
+import com.tarik.usermanagementapi.dao.PermissionDao;
+import com.tarik.usermanagementapi.model.enums.Status;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,14 +27,13 @@ public class AppUserService {
         this.permissionDao = permissionDao;
     }
 
-    public List<AppUserViewModel> getAppUsers() {
-        return appUserDao.findAll().stream()
-                .map(AppUserViewModel::new)
-                .toList();
+    public Page<AppUserViewModel> getAppUsers(PageRequest pageRequest) {
+        return appUserDao.findAll(pageRequest)
+                .map(AppUserViewModel::new);
     }
 
 
-    public AppUser createAppUser(AppUserViewModel appUser) {
+    public void createAppUser(AppUserViewModel appUser) {
         appUserDao.findByEmail(appUser.email()).ifPresent((existingAppUser) -> {
             throw new AppUserEmailConstraintViolationException(
                     "User with email address " + existingAppUser.getEmail() + " already exists"
@@ -49,7 +53,7 @@ public class AppUserService {
                 .permissions(permissions)
                 .build();
 
-        return appUserDao.save(appUserWithEncodedPasswordAndDefaultStatus);
+        appUserDao.save(appUserWithEncodedPasswordAndDefaultStatus);
     }
 
     public AppUserViewModel updateAppUser(Long appUserId, AppUserViewModel appUser) {

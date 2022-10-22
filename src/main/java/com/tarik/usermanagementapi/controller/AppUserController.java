@@ -1,12 +1,14 @@
-package com.tarik.usermanagementapi.appuser;
+package com.tarik.usermanagementapi.controller;
 
-import com.tarik.usermanagementapi.exception.AppUserEmailConstraintViolationException;
-import com.tarik.usermanagementapi.exception.AppUserNotFoundException;
+import com.tarik.usermanagementapi.service.AppUserService;
+import com.tarik.usermanagementapi.model.view.AppUserViewModel;
+import com.tarik.usermanagementapi.model.exception.AppUserEmailConstraintViolationException;
+import com.tarik.usermanagementapi.model.exception.AppUserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/app-users")
@@ -19,8 +21,9 @@ public class AppUserController {
     }
 
     @GetMapping
-    public List<AppUserViewModel> getAppUsers() {
-        return appUserService.getAppUsers();
+    public Page<AppUserViewModel> getAppUsers(@RequestParam int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        return appUserService.getAppUsers(pageRequest);
     }
 
     @PostMapping

@@ -1,4 +1,4 @@
-package com.tarik.usermanagementapi.status;
+package com.tarik.usermanagementapi.model.enums;
 
 public enum Status {
     ACTIVE,
