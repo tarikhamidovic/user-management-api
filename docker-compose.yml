@@ -5,7 +5,8 @@ services:
     container_name: user_management_postgres
     image: postgres
     environment:
-      POSTGRES_USER: "tarik"
-      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: tarik
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user-management
     ports:
       - "5432:5432"
