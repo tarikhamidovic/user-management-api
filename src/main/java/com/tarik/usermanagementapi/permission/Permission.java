@@ -2,16 +2,18 @@ package com.tarik.usermanagementapi.permission;
 
 import com.tarik.usermanagementapi.appuser.AppUser;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Permission {
 
     @Id
@@ -22,5 +24,5 @@ public class Permission {
     private String permissionName;
 
     @ManyToMany(mappedBy = "permissions")
-    private Set<AppUser> appUsers;
+    private List<AppUser> appUsers;
 }

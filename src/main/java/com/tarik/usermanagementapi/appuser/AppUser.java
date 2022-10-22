@@ -3,16 +3,18 @@ package com.tarik.usermanagementapi.appuser;
 import com.tarik.usermanagementapi.permission.Permission;
 import com.tarik.usermanagementapi.status.Status;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AppUser {
 
     @Id
@@ -25,13 +27,13 @@ public class AppUser {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -44,5 +46,5 @@ public class AppUser {
             joinColumns = @JoinColumn(name = "app_user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private Set<Permission> permissions;
+    private List<Permission> permissions;
 }
