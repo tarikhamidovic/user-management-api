@@ -32,6 +32,21 @@ public class AppUserService {
                 .map(AppUserViewModel::new);
     }
 
+    public Page<AppUserViewModel> getAppUsersFilteringFirstName(String firstName, PageRequest pageRequest) {
+        return appUserDao.findByFirstNameContaining(firstName, pageRequest)
+                .map(AppUserViewModel::new);
+    }
+
+    public Page<AppUserViewModel> getAppUsersFilteringLastName(String lastName, PageRequest pageRequest) {
+        return appUserDao.findByLastNameContaining(lastName, pageRequest)
+                .map(AppUserViewModel::new);
+    }
+
+    public Page<AppUserViewModel> getAppUsersFilteringEmail(String email, PageRequest pageRequest) {
+        return appUserDao.findByEmailContaining(email, pageRequest)
+                .map(AppUserViewModel::new);
+    }
+
     public AppUserViewModel getAppUserById(Long appUserId) {
         return appUserDao.findById(appUserId)
                 .map(AppUserViewModel::new)
@@ -62,12 +77,16 @@ public class AppUserService {
     }
 
     public AppUserViewModel updateAppUser(Long appUserId, AppUserViewModel appUser) {
+        List<Permission> permissions = permissionDao
+                .getPermissionsByPermissionNames(appUser.permissions());
+
         return appUserDao.findById(appUserId)
                 .map(existingAppUser -> {
                     existingAppUser.setFirstName(appUser.firstName());
                     existingAppUser.setLastName(appUser.lastName());
                     existingAppUser.setEmail(appUser.email());
                     existingAppUser.setStatus(appUser.status());
+                    existingAppUser.setPermissions(permissions);
                     AppUser createAppUser = appUserDao.save(existingAppUser);
 
                     return new AppUserViewModel(createAppUser);

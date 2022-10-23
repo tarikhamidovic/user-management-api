@@ -22,9 +22,25 @@ public class AppUserController {
     }
 
     @GetMapping
-    public Page<AppUserViewModel> getAppUsers(@RequestParam int page, @RequestParam(required = false) String sortBy) {
+    public Page<AppUserViewModel> getAppUsers(
+            @RequestParam int page,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String email
+    ) {
         PageRequest pageRequest =
                 sortBy == null ? PageRequest.of(page, 10) : PageRequest.of(page, 10, Sort.by(sortBy));
+
+        if (firstName != null && !firstName.isBlank()) {
+            return appUserService.getAppUsersFilteringFirstName(firstName, pageRequest);
+        }
+        if (lastName != null && !lastName.isBlank()) {
+            return appUserService.getAppUsersFilteringLastName(lastName, pageRequest);
+        }
+        if (email != null && !email.isBlank()) {
+            return appUserService.getAppUsersFilteringEmail(email, pageRequest);
+        }
 
         return appUserService.getAppUsers(pageRequest);
     }
