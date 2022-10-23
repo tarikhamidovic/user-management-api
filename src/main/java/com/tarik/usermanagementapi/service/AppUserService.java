@@ -32,6 +32,11 @@ public class AppUserService {
                 .map(AppUserViewModel::new);
     }
 
+    public AppUserViewModel getAppUserById(Long appUserId) {
+        return appUserDao.findById(appUserId)
+                .map(AppUserViewModel::new)
+                .orElseThrow(() -> new AppUserNotFoundException("User with id " + appUserId + " not found"));
+    }
 
     public void createAppUser(AppUserViewModel appUser) {
         appUserDao.findByEmail(appUser.email()).ifPresent((existingAppUser) -> {

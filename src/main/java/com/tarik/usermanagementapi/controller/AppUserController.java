@@ -6,6 +6,7 @@ import com.tarik.usermanagementapi.model.exception.AppUserEmailConstraintViolati
 import com.tarik.usermanagementapi.model.exception.AppUserNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,9 +22,20 @@ public class AppUserController {
     }
 
     @GetMapping
-    public Page<AppUserViewModel> getAppUsers(@RequestParam int page) {
-        PageRequest pageRequest = PageRequest.of(page, 10);
+    public Page<AppUserViewModel> getAppUsers(@RequestParam int page, @RequestParam(required = false) String sortBy) {
+        PageRequest pageRequest =
+                sortBy == null ? PageRequest.of(page, 10) : PageRequest.of(page, 10, Sort.by(sortBy));
+
         return appUserService.getAppUsers(pageRequest);
+    }
+
+    @GetMapping("/{appUserId}")
+    public AppUserViewModel getAppUserById(@PathVariable Long appUserId) {
+        try {
+            return appUserService.getAppUserById(appUserId);
+        } catch (AppUserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @PostMapping
